@@ -202,6 +202,7 @@ const MainNavigator = createDrawerNavigator(
 
 
 class Main extends Component {
+
     componentDidMount() {
         this.props.fetchCampsites();
         this.props.fetchComments();
