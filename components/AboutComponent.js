@@ -7,62 +7,80 @@ import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
-      partners: state.partners
+        partners: state.partners,
     };
 };
 
-function Mission() {
+class Mission extends Component {
+
+render() {
     return (
-    <Card title="Our Mission">
-        <Text>
-            We present a curated database of the best campsites in the vast woods and backcountry of the World Wide Web Wilderness. We increase access to adventure for the public while promoting safe and respectful use of resources. The expert wilderness trekkers on our staff personally verify each campsite to make sure that they are up to our standards. We also present a platform for campers to share reviews on campsites they have visited with each other.
-        </Text>
-    </Card>
-    )
+        <ScrollView>
+            <Card
+                title="Our Mission"
+                wrapperStyle={{margin: 10}} >
+                <Text wrapperStyle={{margin: 10}} >
+                    We present a curated database of the best campsites in the vast woods and backcountry of the World Wide Web Wilderness.We increase access to adventure for the public while promoting safe and respectful use of resources. The expererness trekkers on our staff personally verify each campsite to make sure that they are up to our standards. We also present a platform for campers to share reviews on campsites they have visited with each other.
+                </Text>
+            </Card>
+        </ScrollView>
+        )
+    }
 }
 
 class About extends Component {
-
-    static navigationOptions = {
+    
+        static navigationOptions = {
         title: 'About Us'
     }
 
     render() {
         const renderPartner = ({item}) => {
             return (
-                <ListItem
-                    title={item.name}
-                    subtitle={item.description}
-                    leftAvatar={{source: {uri: baseUrl + item.image}}}
-                />
+            <ListItem
+                title={item.name}
+                subtitle={item.description}
+                leftAvatar={{ source: { uri: baseUrl + item.image } }}
+            />
             );
         };
 
         if (this.props.partners.isLoading) {
             return (
-                <ScrollView>
-                    <Mission />
-                    <Card
-                        title='Community Partners'>
-                        <Loading />
-                    </Card>
-                </ScrollView>
+            <ScrollView>
+                <Mission />
+                <Card
+                    title='Community Partners'>
+                    <Loading />
+                </Card>
+            </ScrollView>
             );
         }
         if (this.props.partners.errMess) {
             return (
-                <ScrollView>
-                    <Mission />
-                    <Card
-                        title='Community Partners'>
-                        <Text>{this.props.partners.errMess}</Text>
-                    </Card>
-                </ScrollView>
+            <ScrollView>
+                <Mission />
+                <Card
+                    title='Community Partners'>
+                    <Text>{this.props.partners.errMess}</Text>
+                </Card>
+            </ScrollView>
             );
         }
         return (
             <ScrollView>
-        )
+                <Mission />
+                <Card
+                    title='Community Partners'
+                    wrapperStyle={{margin: 10}}>
+                    <FlatList>
+                        data={this.props.partners.partners}
+                        renderItem={renderPartner}
+                        keyExtractor={item => item.id.toString()}
+                    </FlatList>
+                </Card>
+            </ScrollView>
+        );
     }
 }
 
